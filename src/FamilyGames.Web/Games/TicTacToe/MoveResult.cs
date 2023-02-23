@@ -1,4 +1,4 @@
-﻿namespace FamilyGames.Shared.TicTacToe;
+﻿namespace FamilyGames.Web.Games.TicTacToe;
 
 public enum MoveResult
 {
