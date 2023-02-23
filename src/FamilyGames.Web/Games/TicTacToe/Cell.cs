@@ -12,8 +12,8 @@ public sealed class Cell
             Index = index
         };
 
-    public void SetPlayer(Player player) 
-        => this.Owner = player;
+    public void SetOwner(Player owner) 
+        => this.Owner = owner;
 
     public void SetWinner() 
         => this.IsWinner = true;

@@ -35,10 +35,10 @@ else
                 var cell = this.board.Cells[i];
                 <div class="col-4" data-id="@i">
                     <button type="button"
-                            class="btn btn-light @(cell.IsWinner ? "text-success" : string.Empty)"
+                            class="btn btn-light @(this.GetColor(cell))"
                     @onclick="() => SendMove(cell.Index)"
                             disabled="@this.board.HasConcluded">
-                        <i style="font-size: 8em;" class="bi @(this.GetIcon(cell.Index))"></i>
+                        <i style="font-size: 8em;" class="bi @(this.GetIcon(cell.Owner))"></i>
                     </button>
                 </div>
             }
@@ -49,13 +49,24 @@ else
 @code {
     private Board board = Board.Create();
 
-    private string GetIcon(int index)
-        => this.board.Cells[index].Owner switch
+    private string GetIcon(Player owner)
+        => owner switch
         {
             Player.X => "bi-x-lg",
             Player.O => "bi-circle",
             _ => "bi-square"
         };
+
+    private string GetColor(Cell cell)
+    {
+        return cell switch
+        {
+            Cell c when c.IsWinner => "text-success",
+            Cell c when c.Owner == Player.X => "text-primary",
+            Cell c when c.Owner == Player.O => "text-danger",
+            _ => string.Empty
+        };   
+    }
 
     private void SendMove(int index)
     {

@@ -43,7 +43,7 @@ public sealed class Board
 
     public void Move(PlayerMove move)
     {
-        this.Cells[move.Slot].SetPlayer(move.Player);
+        this.Cells[move.Slot].SetOwner(move.Player);
         this.SetNextPlayerTurn();
 
         foreach (var combination in this.winCombinations)
