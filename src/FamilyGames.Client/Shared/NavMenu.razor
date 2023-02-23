@@ -1,31 +1,41 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">FamilyGames.Client</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+        <NavLink class="navbar-brand" href="" Match="NavLinkMatch.All">
+            Family Games
+        </NavLink>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="@NavMenuCssClass navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </NavLink>
+                </li>
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="tic-tac-toe">
+                        <i class="bi bi-grid-3x3"></i> Tic-Tac-Toe
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="four-in-a-row">
+                        <i class="bi bi-grid-3x3"></i> Four in a Row
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="memory">
+                        <i class="bi bi-grid-3x3"></i> Memory
+                    </NavLink>
+                </div>
+            </ul>
+        </div>
     </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <i class="bi bi-house-fill"></i> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="tic-tac-toe">
-                <i class="bi bi-grid-3x3"></i> Tic-Tac-Toe
-            </NavLink>
-        </div>
-    </nav>
-</div>
+</nav>
 
 @code {
     private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse navbar-collapse" : "navbar-collapse";
 
     private void ToggleNavMenu()
     {
