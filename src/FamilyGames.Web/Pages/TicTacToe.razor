@@ -37,7 +37,7 @@ else
                 var cell = this.board.Cells[i];
                 <div class="col-4" data-id="@i">
                     <button type="button"
-                            class="btn @(this.GetColor(cell))"
+                            class="btn @(this.GetColor(cell))" style="border-style: none; border-width: 0;"
                     @onclick="() => SendMove(cell.Index)"
                             disabled="@this.board.HasConcluded">
                         <i style="font-size: 8em;" class="bi @(this.GetIcon(cell.Owner))"></i>
