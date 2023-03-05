@@ -13,3 +13,4 @@ Unless otherwise noted, all changes made by [@jeremyknight-me](https://github.co
 
 - Tic-Tac-Toe game
 - Memory game
+- Connect Four game
