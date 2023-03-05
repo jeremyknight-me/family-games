@@ -5,4 +5,5 @@ This is designed to be a self-hosted set of games for playing with friends and f
 Games
 - Tic-Tac-Toe
 - Memory
-- Connect4 / Four in a Row (Coming Soon)
+- Connect Four / Four in a Row
+  - Based off of @csharpfritz repository found at https://github.com/csharpfritz/BlazorConnectFour
