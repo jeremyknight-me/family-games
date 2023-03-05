@@ -1,12 +1,23 @@
 ﻿namespace FamilyGames.Web.Games.ConnectFour;
 
-public class WinningCombinations
+public class WinningScenarios
 {
-    private WinningCombinations()
+    private WinningScenarios()
     {
-		var combos = new List<int[]>();
+		var scenarios = new List<byte[]>();
+		scenarios.AddRange(this.GetHorizontalScenarios());
+		scenarios.AddRange(this.GetVerticalScenarios());
+		scenarios.AddRange(this.GetDiagonalForwardSlashScenarios());
+		scenarios.AddRange(this.GetDiagonalBackSlashScenarios());
+		this.Scenarios = scenarios.ToArray();
+	}
 
-		// Horizontal rows
+	public byte[][] Scenarios { get; }
+
+	public static WinningScenarios Create() => new();
+
+	private IEnumerable<byte[]> GetHorizontalScenarios()
+	{
 		for (byte row = 0; row < 6; row++)
 		{
 			byte rowCol1 = (byte)(row * 7);
@@ -14,17 +25,20 @@ public class WinningCombinations
 			byte checkCol = rowCol1;
 			while (checkCol <= rowColEnd - 3)
 			{
-				combos.Add(new int[] {
+				var scenario = new byte[] {
 					checkCol,
 					(byte)(checkCol + 1),
 					(byte)(checkCol + 2),
 					(byte)(checkCol + 3)
-					});
+					};
 				checkCol++;
+				yield return scenario;
 			}
 		}
+	}
 
-		// Vertical Columns
+	private IEnumerable<byte[]> GetVerticalScenarios()
+	{
 		for (byte col = 0; col < 7; col++)
 		{
 			byte colRow1 = col;
@@ -32,17 +46,20 @@ public class WinningCombinations
 			byte checkRow = colRow1;
 			while (checkRow <= 14 + col)
 			{
-				combos.Add(new int[] {
+				var scenario = new byte[] {
 					checkRow,
 					(byte)(checkRow + 7),
 					(byte)(checkRow + 14),
 					(byte)(checkRow + 21)
-					});
+					};
 				checkRow += 7;
+				yield return scenario;
 			}
 		}
+	}
 
-		// forward slash diagonal "/"
+	private IEnumerable<byte[]> GetDiagonalForwardSlashScenarios()
+	{
 		for (byte col = 0; col < 4; col++)
 		{
 			// starting column must be 0-3
@@ -51,17 +68,20 @@ public class WinningCombinations
 			byte checkPos = colRow1;
 			while (checkPos <= colRowEnd)
 			{
-				combos.Add(new int[] {
+				var scenario = new byte[] {
 					checkPos,
 					(byte)(checkPos - 6),
 					(byte)(checkPos - 12),
 					(byte)(checkPos - 18)
-					});
+					};
 				checkPos += 7;
+				yield return scenario;
 			}
 		}
+	}
 
-		// back slash diaganol "\"
+	private IEnumerable<byte[]> GetDiagonalBackSlashScenarios()
+	{
 		for (byte col = 0; col < 4; col++)
 		{
 			// starting column must be 0-3
@@ -70,21 +90,15 @@ public class WinningCombinations
 			byte checkPos = colRow1;
 			while (checkPos <= colRowEnd)
 			{
-				combos.Add(new int[] {
+				var scenario = new byte[] {
 					checkPos,
 					(byte)(checkPos + 8),
 					(byte)(checkPos + 16),
 					(byte)(checkPos + 24)
-					});
+					};
 				checkPos += 7;
+				yield return scenario;
 			}
 		}
-
-		this.Combinations = combos;
 	}
-
-	public List<int[]> Combinations { get; }
-
-	public static WinningCombinations Create() 
-		=> new();
 }
