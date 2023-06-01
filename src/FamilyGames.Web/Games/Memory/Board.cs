@@ -46,6 +46,11 @@ public sealed class Board
 
     public void Select(Card card)
     {
+        if (card.IsSelected)
+        {
+            return;
+        }
+
         card.Select();
         if (this.firstSelection is null)
         {
