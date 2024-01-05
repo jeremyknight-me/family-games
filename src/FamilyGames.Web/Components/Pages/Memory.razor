@@ -1,4 +1,5 @@
 ﻿@page "/memory"
+@rendermode InteractiveServer
 @using System.Linq;
 @using FamilyGames.Web.Games.Memory;
 
@@ -25,9 +26,9 @@
             </div>
         </div>
         <div class="col-auto">
-            <button class="btn btn-secondary" 
-                @onclick="this.board.EndTurn"
-                disabled="@(!this.board.IsTurnOver)">
+            <button class="btn btn-secondary"
+                    @onclick="this.board.EndTurn"
+                    disabled="@(!this.board.IsTurnOver)">
                 <i class="bi bi-check-lg"></i> End Turn
             </button>
         </div>
@@ -45,7 +46,7 @@
         @foreach (var card in this.board.Cards)
         {
             <button class="memory-card @(card.IsFlipped ? "flipped" : string.Empty)"
-            @onclick="() => this.board.Select(card)" disabled="@this.IsCardDisabled(card)">
+                    @onclick="() => this.board.Select(card)" disabled="@this.IsCardDisabled(card)">
                 <div class="memory-card-inner p-1">
                     <div class="memory-card-front p-3">
                         <i class="bi @card.Icon.CssClass" title="@card.Icon.Name"

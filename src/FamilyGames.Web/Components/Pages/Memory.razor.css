@@ -45,6 +45,6 @@ button.memory-card.flipped .memory-card-inner {
     color: var(--bs-white);
 }
 
-.memory-card-front i, .memory-card-back i {
-    font-size: 4em;
-}
+    .memory-card-front i, .memory-card-back i {
+        font-size: 4em;
+    }

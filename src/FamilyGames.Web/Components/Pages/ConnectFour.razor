@@ -1,4 +1,5 @@
 ﻿@page "/connect-four"
+@rendermode InteractiveServer
 @using FamilyGames.Web.Games.ConnectFour;
 
 <HeadContent>
@@ -33,7 +34,7 @@
 	}
 	@if (this.board.HasCurrentMessage)
 	{
-		<div class="alert alert-info">@this.board.CurrentMessage</div>	
+		<div class="alert alert-info">@this.board.CurrentMessage</div>
 	}
 </article>
 
@@ -62,7 +63,7 @@
 
 @code {
 	private Board board = Board.Create();
-	
+
 	protected override void OnInitialized()
 	{
 		this.board.Reset();
