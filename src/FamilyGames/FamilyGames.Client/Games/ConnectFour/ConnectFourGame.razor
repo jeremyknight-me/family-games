@@ -40,7 +40,7 @@
 	@for (byte i = 0; i < 7; i++)
 	{
 		byte index = i;
-		<button title="Drop a piece in column @(index+1)" @onclick="() => this.board.PlayPiece(index)">
+		<button title="Drop a piece in column @(index+1)" @onclick="() => this.PlayPiece(index)">
 			<i class="fs-3 bi bi-caret-down-square-fill"></i>
 		</button>
 	}
@@ -60,10 +60,15 @@
 </div>
 
 @code {
-	private Board board = Board.Create();
+    private Board board = Board.Create();
 
-	protected override void OnInitialized()
-	{
-		this.board.Reset();
-	}
+    protected override void OnInitialized()
+    {
+        this.board.Reset();
+    }
+
+    private void PlayPiece(byte i)
+    {
+        this.board.PlayPiece(i);
+    }
 }

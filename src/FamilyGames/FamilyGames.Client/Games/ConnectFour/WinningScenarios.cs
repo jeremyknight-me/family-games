@@ -42,7 +42,8 @@ public class WinningScenarios
 		for (byte col = 0; col < 7; col++)
 		{
 			var colRow1 = col;
-			var checkRow = colRow1;
+            var colRowEnd = (byte)(35 + col);
+            var checkRow = colRow1;
 			while (checkRow <= 14 + col)
 			{
                 byte[] scenario = [
