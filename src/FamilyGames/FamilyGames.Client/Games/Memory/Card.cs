@@ -3,8 +3,8 @@
 public sealed class Card
 {
     public required Icon Icon { get; init; }
-    public bool IsFlipped => IsMatched || IsSelected;
-    public bool IsMatched => Owner != Player.None;
+    public bool IsFlipped => this.IsMatched || this.IsSelected;
+    public bool IsMatched => this.Owner != Player.None;
     public bool IsSelected { get; private set; } = false;
     public Player Owner { get; private set; } = Player.None;
 
@@ -13,18 +13,18 @@ public sealed class Card
 
     public void Select()
     {
-        if (!IsSelected)
+        if (!this.IsSelected)
         {
-            IsSelected = true;
+            this.IsSelected = true;
         }
     }
 
     public void Match(Player owner)
     {
-        Owner = owner;
-        IsSelected = false;
+        this.Owner = owner;
+        this.IsSelected = false;
     }
 
     public void Unselect()
-        => IsSelected = false;
+        => this.IsSelected = false;
 }

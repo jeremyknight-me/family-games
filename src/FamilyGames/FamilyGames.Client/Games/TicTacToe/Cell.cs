@@ -13,8 +13,8 @@ public sealed class Cell
 		};
 
 	public void SetOwner(Player owner)
-		=> Owner = owner;
+		=> this.Owner = owner;
 
 	public void SetWinner()
-		=> IsWinner = true;
+		=> this.IsWinner = true;
 }

@@ -8,8 +8,7 @@ public sealed class IconCollection
 
     public IconCollection()
     {
-        icons = new List<Icon>
-        {
+        this.icons = [
             Icon.Create(IconNames.Airplane, IconCssClasses.Airplane),
             Icon.Create(IconNames.Alarm, IconCssClasses.Alarm),
             Icon.Create(IconNames.Bag, IconCssClasses.Bag),
@@ -84,13 +83,13 @@ public sealed class IconCollection
             Icon.Create(IconNames.Watch, IconCssClasses.Watch),
             Icon.Create(IconNames.Wrench, IconCssClasses.Wrench),
             Icon.Create(IconNames.YinYang, IconCssClasses.YinYang)
-        };
+        ];
     }
 
-    public IReadOnlyList<Icon> Icons => icons.AsReadOnly();
+    public IReadOnlyList<Icon> Icons => this.icons.AsReadOnly();
 
     public IReadOnlyList<Icon> GetIcons(int number)
-        => icons
+        => this.icons
             .OrderBy(x => Random.Shared.Next())
             .Take(number)
             .ToImmutableList();
