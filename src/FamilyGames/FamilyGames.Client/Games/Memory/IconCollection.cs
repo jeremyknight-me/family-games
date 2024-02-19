@@ -1,14 +1,14 @@
 ﻿using System.Collections.Immutable;
 
-namespace FamilyGames.Web.Games.Memory;
+namespace FamilyGames.Client.Games.Memory;
 
 public sealed class IconCollection
 {
-    private readonly List<Icon> icons; 
+    private readonly List<Icon> icons;
 
     public IconCollection()
     {
-        this.icons = new List<Icon>
+        icons = new List<Icon>
         {
             Icon.Create(IconNames.Airplane, IconCssClasses.Airplane),
             Icon.Create(IconNames.Alarm, IconCssClasses.Alarm),
@@ -87,10 +87,10 @@ public sealed class IconCollection
         };
     }
 
-    public IReadOnlyList<Icon> Icons => this.icons.AsReadOnly();
+    public IReadOnlyList<Icon> Icons => icons.AsReadOnly();
 
-    public IReadOnlyList<Icon> GetIcons(int number) 
-        => this.icons
+    public IReadOnlyList<Icon> GetIcons(int number)
+        => icons
             .OrderBy(x => Random.Shared.Next())
             .Take(number)
             .ToImmutableList();

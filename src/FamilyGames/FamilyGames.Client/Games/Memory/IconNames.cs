@@ -1,4 +1,4 @@
-﻿namespace FamilyGames.Web.Games.Memory;
+﻿namespace FamilyGames.Client.Games.Memory;
 
 public static class IconNames
 {

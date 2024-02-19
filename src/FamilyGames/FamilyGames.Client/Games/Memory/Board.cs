@@ -1,4 +1,4 @@
-﻿namespace FamilyGames.Web.Games.Memory;
+﻿namespace FamilyGames.Client.Games.Memory;
 
 public sealed class Board
 {
@@ -9,38 +9,38 @@ public sealed class Board
 
     public Board(int numberOfPairs)
     {
-        this.cards = this.BuildDeck(numberOfPairs);
-        this.scores = new Dictionary<Player, int> 
+        cards = BuildDeck(numberOfPairs);
+        scores = new Dictionary<Player, int>
         {
             { Player.One, 0 },
             { Player.Two, 0 }
         };
     }
 
-    public IReadOnlyList<Card> Cards => this.cards.AsReadOnly();
+    public IReadOnlyList<Card> Cards => cards.AsReadOnly();
     public Player CurrentPlayer { get; private set; } = Player.One;
-    public bool IsTurnOver => this.firstSelection is not null && this.secondSelection is not null;
-    public IReadOnlyDictionary<Player, int> Scores => this.scores.AsReadOnly();
+    public bool IsTurnOver => firstSelection is not null && secondSelection is not null;
+    public IReadOnlyDictionary<Player, int> Scores => scores.AsReadOnly();
 
-    public static Board Create(int numberOfPairs) 
+    public static Board Create(int numberOfPairs)
         => new(numberOfPairs);
 
     public void EndTurn()
     {
-        this.CurrentPlayer = this.CurrentPlayer == Player.One
+        CurrentPlayer = CurrentPlayer == Player.One
             ? Player.Two
             : Player.One;
 
-        if (this.firstSelection is not null) 
+        if (firstSelection is not null)
         {
-            this.firstSelection.Unselect();
-            this.firstSelection = null;
+            firstSelection.Unselect();
+            firstSelection = null;
         }
 
-        if (this.secondSelection is not null)
+        if (secondSelection is not null)
         {
-            this.secondSelection.Unselect();
-            this.secondSelection = null;
+            secondSelection.Unselect();
+            secondSelection = null;
         }
     }
 
@@ -52,20 +52,20 @@ public sealed class Board
         }
 
         card.Select();
-        if (this.firstSelection is null)
+        if (firstSelection is null)
         {
-            this.firstSelection = card;
+            firstSelection = card;
             return;
-        } 
-        
-        if (this.secondSelection is null)
+        }
+
+        if (secondSelection is null)
         {
-            this.secondSelection = card;
-            if (this.firstSelection.Icon.Name == this.secondSelection.Icon.Name)
+            secondSelection = card;
+            if (firstSelection.Icon.Name == secondSelection.Icon.Name)
             {
-                this.firstSelection.Match(this.CurrentPlayer);
-                this.secondSelection.Match(this.CurrentPlayer);
-                this.scores[this.CurrentPlayer]++;
+                firstSelection.Match(CurrentPlayer);
+                secondSelection.Match(CurrentPlayer);
+                scores[CurrentPlayer]++;
             }
         }
     }
