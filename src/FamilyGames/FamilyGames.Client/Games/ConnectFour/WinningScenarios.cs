@@ -1,15 +1,15 @@
-﻿namespace FamilyGames.Web.Games.ConnectFour;
+﻿namespace FamilyGames.Client.Games.ConnectFour;
 
 public class WinningScenarios
 {
-    private WinningScenarios()
-    {
+	private WinningScenarios()
+	{
 		var scenarios = new List<byte[]>();
-		scenarios.AddRange(this.GetHorizontalScenarios());
-		scenarios.AddRange(this.GetVerticalScenarios());
-		scenarios.AddRange(this.GetDiagonalForwardSlashScenarios());
-		scenarios.AddRange(this.GetDiagonalBackSlashScenarios());
-		this.Scenarios = scenarios.ToArray();
+		scenarios.AddRange(GetHorizontalScenarios());
+		scenarios.AddRange(GetVerticalScenarios());
+		scenarios.AddRange(GetDiagonalForwardSlashScenarios());
+		scenarios.AddRange(GetDiagonalBackSlashScenarios());
+		Scenarios = scenarios.ToArray();
 	}
 
 	public byte[][] Scenarios { get; }

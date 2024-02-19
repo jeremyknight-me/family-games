@@ -1,4 +1,4 @@
-﻿namespace FamilyGames.Web.Games.ConnectFour;
+﻿namespace FamilyGames.Client.Games.ConnectFour;
 
 public enum MoveResult
 {
