@@ -1,0 +1,84 @@
+﻿@rendermode InteractiveWebAssembly
+
+<div class="row">
+    <div class="col">
+        <h3>Memory</h3>
+    </div>
+    <div class="col text-end">
+        <button type="button" class="btn btn-primary" @onclick="this.Reset">
+            <i class="bi bi-arrow-clockwise"></i> Reset
+        </button>
+    </div>
+</div>
+
+@if (this.board is not null)
+{
+    <div class="row mt-3 mb-2 align-items-center">
+        <div class="col">
+            <div class="alert alert-primary mb-0" role="alert">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="@(this.board.CurrentPlayer == Player.One ? "fw-bold" : string.Empty)">Player 1</div>
+                    <div>Pairs: @this.board.Scores[Player.One]</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-secondary"
+                    @onclick="this.board.EndTurn"
+                    disabled="@(!this.board.IsTurnOver)">
+                <i class="bi bi-check-lg"></i> End Turn
+            </button>
+        </div>
+        <div class="col">
+            <div class="alert alert-success mb-0" role="alert">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="@(this.board.CurrentPlayer == Player.Two ? "fw-bold" : string.Empty)">Player 2</div>
+                    <div>Pairs: @this.board.Scores[Player.Two]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="memory-board">
+        @foreach (var card in this.board.Cards)
+        {
+            <button class="memory-card @(card.IsFlipped ? "flipped" : string.Empty)"
+                    @onclick="() => this.board.Select(card)" disabled="@this.IsCardDisabled(card)">
+                <div class="memory-card-inner p-1">
+                    <div class="memory-card-front p-3">
+                        <i class="bi @card.Icon.CssClass" title="@card.Icon.Name"
+                           style="color: var(--bs-@(this.GetIconColor(card)))"></i>
+                    </div>
+                    <div class="memory-card-back p-3">
+                        <i class="bi bi-files"></i>
+                    </div>
+                </div>
+            </button>
+        }
+    </div>
+}
+
+@code {
+    private const int numberOfPairs = 15;
+    private Board board = Board.Create(numberOfPairs);
+
+    private string GetIconColor(Card card)
+    {
+        return card.Owner switch
+        {
+            Player.One => "blue",
+            Player.Two => "green",
+            _ => "orange"
+        };
+    }
+
+    private bool IsCardDisabled(Card card)
+        => this.board.IsTurnOver || card.IsMatched;
+
+    private async Task Reset()
+    {
+        this.board.EndTurn();
+        await Task.Delay(1000); // let cards flip before resetting
+        this.board = Board.Create(numberOfPairs);
+    }
+}

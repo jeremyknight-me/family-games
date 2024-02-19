@@ -1,0 +1,86 @@
+﻿@rendermode InteractiveWebAssembly
+
+<h3>Tic-Tac-Toe</h3>
+
+@if (board is null || board.Cells is null || board.Cells.Length == 0)
+{
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+}
+else
+{
+    <div class="row mb-3">
+        <div class="col">
+            <span class="fw-bold">Current Turn:</span>
+            <span>@($"Player {board.CurrentPlayerTurn}")</span>
+        </div>
+        <div class="col text-end">
+            <button type="button" class="btn btn-primary" @onclick="this.Reset">
+                <i class="bi bi-arrow-clockwise"></i> Reset
+            </button>
+        </div>
+    </div>
+
+    @if (this.board.HasDraw)
+    {
+        <div class="alert alert-warning" role="alert">
+            Game has ended in a draw. Reset to play again.
+        </div>
+    }
+
+    <div class="text-center">
+        <div class="row">
+            @for (int i = 0; i < this.board.Cells.Length; i++)
+            {
+                var cell = this.board.Cells[i];
+                <div class="col-4" data-id="@i">
+                    <button type="button"
+                            class="btn @(this.GetColor(cell))" style="border-style: none; border-width: 0;"
+                            @onclick="() => SendMove(cell.Index)"
+                            disabled="@this.board.HasConcluded">
+                        <i style="font-size: 8em;" class="bi @(this.GetIcon(cell.Owner))"></i>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private Board board = Board.Create();
+
+    private string GetIcon(Player owner)
+        => owner switch
+        {
+            Player.X => "bi-x-lg",
+            Player.O => "bi-circle",
+            _ => "bi-square"
+        };
+
+    private string GetColor(Cell cell)
+    {
+        return cell switch
+        {
+            Cell c when c.IsWinner => "text-success",
+            Cell c when c.Owner == Player.X => "text-primary",
+            Cell c when c.Owner == Player.O => "text-danger",
+            _ => string.Empty
+        };
+    }
+
+    private void SendMove(int index)
+    {
+        var request = new PlayerMove
+            {
+                Player = board.CurrentPlayerTurn,
+                Slot = index
+            };
+        this.board.Move(request);
+    }
+
+    private void Reset()
+    {
+        this.board = Board.Create();
+    }
+}

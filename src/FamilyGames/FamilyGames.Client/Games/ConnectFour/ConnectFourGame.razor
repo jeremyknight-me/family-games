@@ -1,0 +1,74 @@
+﻿@rendermode InteractiveWebAssembly
+
+<HeadContent>
+	<style>
+		:root {
+			--connect-four-board: #070f64;
+			--connect-four-player1: #cb1227;
+			--connect-four-player2: #ffd54a;
+		}
+	</style>
+</HeadContent>
+
+<div class="row">
+	<div class="col">
+		<h3>Connect Four</h3>
+	</div>
+	<div class="col text-end">
+		<button type="button" class="btn btn-primary" @onclick="this.board.Reset">
+			<i class="bi bi-arrow-clockwise"></i> Reset
+		</button>
+	</div>
+</div>
+
+<article>
+	@if (this.board.HasWinnerMessage)
+	{
+		<div class="alert alert-success">@this.board.WinnerMessage</div>
+	}
+	@if (this.board.HasErrorMessage)
+	{
+		<div class="alert alert-danger">@this.board.ErrorMessage</div>
+	}
+	@if (this.board.HasCurrentMessage)
+	{
+		<div class="alert alert-info">@this.board.CurrentMessage</div>
+	}
+</article>
+
+<nav>
+	@for (byte i = 0; i < 7; i++)
+	{
+		byte index = i;
+		<button title="Drop a piece in column @(index+1)" @onclick="() => this.PlayPiece(index)">
+			<i class="fs-3 bi bi-caret-down-square-fill"></i>
+		</button>
+	}
+</nav>
+
+<div>
+	<div class="board">
+		@for (var i = 0; i < 42; i++)
+		{
+			<span class="container"><span></span></span>
+		}
+	</div>
+	@for (var i = 0; i < 42; i++)
+	{
+		<span class="@this.board.PlayerMoves[i]"></span>
+	}
+</div>
+
+@code {
+    private Board board = Board.Create();
+
+    protected override void OnInitialized()
+    {
+        this.board.Reset();
+    }
+
+    private void PlayPiece(byte i)
+    {
+        this.board.PlayPiece(i);
+    }
+}
