@@ -7,14 +7,17 @@
 		<RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
 		<EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
 		<UserSecretsId>b2d3a92b-bc16-4382-afbe-77c459cf05b4</UserSecretsId>
-
+	
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..</DockerfileContext>
+		<ContainerRepository>family-games</ContainerRepository>
+		<ContainerImageName>family-games</ContainerImageName>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\FamilyGames.Client\FamilyGames.Client.csproj" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.2" />
+		<PackageReference Include="Microsoft.NET.Build.Containers" Version="8.0.200" />
 	</ItemGroup>
 
 	<ItemGroup>
