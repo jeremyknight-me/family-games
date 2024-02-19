@@ -7,7 +7,7 @@ Unless otherwise noted, all changes made by [@jeremyknight-me](https://github.co
 
 ---
 
-## v1.0.0 - Unreleased 
+## v1.0.1
 
 ### Added
 

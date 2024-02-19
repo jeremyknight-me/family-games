@@ -10,7 +10,9 @@ Games
 
 Publish Instructions
 
+Change `ContainerImageTags` to latest version on publish.
+
 ```powershell
 docker login
-dotnet publish --os linux --arch x64 -c Release -p:PublishProfile=DefaultContainer -p:ContainerImageTags='"1.0.1;latest"'
+dotnet publish --os linux --arch x64 -c Release -p:PublishProfile=DefaultContainer -p:ContainerImageTags='"1.0.1;latest"' -p:ContainerRegistry=docker.io
 ```
