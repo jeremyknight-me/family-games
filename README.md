@@ -7,3 +7,10 @@ Games
 - Memory
 - Connect Four / Four in a Row
   - Based off of @csharpfritz repository found at https://github.com/csharpfritz/BlazorConnectFour
+
+Publish Instructions
+
+```powershell
+docker login
+dotnet publish --os linux --arch x64 -c Release -p:PublishProfile=DefaultContainer -p:ContainerImageTags='"1.0.1;latest"'
+```
