@@ -12,7 +12,6 @@
 
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..</DockerfileContext>
-        <ContainerRegistry>docker.io</ContainerRegistry>
 		<ContainerRepository>knight0323/family-games</ContainerRepository>
 	</PropertyGroup>
 
