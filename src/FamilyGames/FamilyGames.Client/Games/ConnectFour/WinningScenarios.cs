@@ -21,7 +21,7 @@ public class WinningScenarios
 		for (byte row = 0; row < 6; row++)
 		{
 			var rowCol1 = (byte)(row * 7);
-			var rowColEnd = (byte)((row + 1) * 7 - 1);
+			var rowColEnd = (byte)((row + 1) * (7 - 1));
 			var checkCol = rowCol1;
 			while (checkCol <= rowColEnd - 3)
 			{
