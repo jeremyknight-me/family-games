@@ -1,6 +1,7 @@
-using FamilyGames.Components;
+﻿using FamilyGames.Components;
 
 namespace FamilyGames;
+
 public class Program
 {
     public static void Main(string[] args)
@@ -23,7 +24,9 @@ public class Program
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        // Turn on and rebuild if you have a SSL cert.
+        //app.UseHttpsRedirection();
+
         app.UseStaticFiles();
         app.UseAntiforgery();
 
