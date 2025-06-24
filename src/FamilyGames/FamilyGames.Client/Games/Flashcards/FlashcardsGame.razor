@@ -4,62 +4,79 @@
 
 <h3>Flashcards</h3>
 
-@if (!gameStarted)
+@if (gameEnded)
 {
-    @if (gameEnded)
+    <div class="alert alert-info mb-3">
+        <strong>Game Ended.</strong> Final Score: @totalCorrect/@totalShown (@percentCorrect%)
+    </div>
+}
+
+<div class="mb-3">
+    <label class="form-label">Select Features:</label>
+    <div>
+        <input type="checkbox" id="addition" @bind="additionSelected">
+        <label for="addition">Addition</label>
+    </div>
+    <div>
+        <input type="checkbox" id="subtraction" @bind="subtractionSelected">
+        <label for="subtraction">Subtraction</label>
+    </div>
+</div>
+<div class="mb-3">
+    <label class="form-label">Select Number Count:</label>
+    @for (int i = minimumTerms; i <= maximumTerms; i++)
     {
-        <div class="alert alert-info mb-3">
-            <strong>Game Ended.</strong> Final Score: @totalCorrect/@totalShown (@percentCorrect%)
+        <div>
+            <input type="radio" id="count-@i" name="numberCount" value="@i" @onchange="e => numberCount = int.Parse(e.Value.ToString())" checked="@(numberCount == i)" />
+            <label for="count-@i">@i</label>
         </div>
     }
-    <div class="mb-3">
-        <label class="form-label">Select Features:</label>
-        <div>
-            <input type="checkbox" id="addition" @bind="additionSelected">
-            <label for="addition">Addition</label>
-        </div>
-        <div>
-            <input type="checkbox" id="subtraction" @bind="subtractionSelected">
-            <label for="subtraction">Subtraction</label>
-        </div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Select Number Count:</label>
-        @for (int i = minimumTerms; i <= maximumTerms; i++)
-        {
-            <div>
-                <input type="radio" id="count-@i" name="numberCount" value="@i" @onchange="e => numberCount = int.Parse(e.Value.ToString())" checked="@(numberCount == i)" />
-                <label for="count-@i">@i</label>
-            </div>
-        }
-    </div>
-    <button class="btn btn-primary" @onclick="StartGame" disabled="@(!canStart)">Start</button>
-}
-else
+</div>
+<button class="btn btn-primary" @onclick="StartGame" disabled="@(!canStart)">Start</button>
+
+@if (gameStarted)
 {
-    <div>
-        <div class="mb-2">
-            <strong>Percent Correct:</strong> @percentCorrect%
-            <span class="ms-3">Total: @totalShown</span>
-            <span class="ms-3">Correct: @totalCorrect</span>
-            <button class="btn btn-danger btn-sm ms-3" @onclick="EndGame">End Game</button>
-        </div>
-        <div class="card mb-3" style="max-width: 400px;">
-            <div class="card-body">
-                <h5 class="card-title">Solve:</h5>
-                <p class="card-text display-6">@currentFlashcard.Equation</p>
-                <input class="form-control mb-2" @bind="userAnswer" @bind:event="oninput" placeholder="Your answer" @onkeydown="OnKeyDown" />
-                <button class="btn btn-success me-2" @onclick="CheckAnswer" disabled="@showResult">Submit</button>
-                <button class="btn btn-secondary" @onclick="NextCard" disabled="@(!showResult)">Next</button>
-                <div class="mt-2">
-                    @if (showResult)
-                    {
-                        <span class="fw-bold">@resultMessage</span>
-                    }
+    <div class="modal fade d-block show" tabindex="-1" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Flashcard</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <strong>Percent Correct:</strong> @percentCorrect%
+                        <span class="ms-3">Total: @totalShown</span>
+                        <span class="ms-3">Correct: @totalCorrect</span>
+                    </div>
+                    <div class="card mb-3" style="max-width: 400px; margin:auto;">
+                        <div class="card-body">
+                            <h5 class="card-title">Solve:</h5>
+                            <p class="card-text display-6">@currentFlashcard.Equation</p>
+                            <input class="form-control mb-2" @bind="userAnswer" @bind:event="oninput" placeholder="Your answer" @onkeydown="OnKeyDown" />
+                            @if (!showResult)
+                            {
+                                <button class="btn btn-success me-2" @onclick="CheckAnswer">Solve</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary" @onclick="NextCard">Next</button>
+                            }
+                            <div class="mt-2">
+                                @if (showResult)
+                                {
+                                    <span class="fw-bold">@resultMessage</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-danger btn-sm mt-2" @onclick="EndGame">End Game</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal-backdrop fade show"></div>
 }
 
 @code {
