@@ -13,21 +13,14 @@
                         <i class="bi bi-house-door-fill"></i> Home
                     </NavLink>
                 </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="tic-tac-toe">
-                        <i class="bi bi-grid-3x3-gap-fill"></i> Tic-Tac-Toe
-                    </NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="connect-four">
-                        <i class="bi bi-circle-square"></i> Connect Four
-                    </NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="memory">
-                        <i class="bi bi-files"></i> Memory
-                    </NavLink>
-                </li>
+                @foreach(var item in NavigationItemFactory.MakeItems())
+                {
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="@item.Href">
+                            <i class="bi @item.Icon"></i> @item.Text
+                        </NavLink>
+                    </li>
+                }
             </ul>
         </div>
     </div>

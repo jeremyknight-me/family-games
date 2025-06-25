@@ -1,0 +1,130 @@
+﻿<div class="card">
+    <div class="card-header">
+        Flashcard
+    </div>
+    @if (flashcard is null)
+    {
+        <div class="card-body">
+            <h5 class="card-title"><span class="placeholder col-4"></span></h5>
+            <p class="card-text display-6">
+                <span class="placeholder col-8"></span>
+            </p>
+        </div>
+        <div class="card-footer text-body-secondary">
+            <div class="row">
+                <div class="col-md-4"><span class="placeholder col-4"></span></div>
+                <div class="col-md-4"><span class="placeholder col-4"></span></div>
+                <div class="col-md-4"><span class="placeholder col-4"></span></div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card-body">
+            <h5 class="card-title">Flashcard</h5>
+            <p class="card-text display-6">
+                @flashcard.Equation
+            </p>
+            <input class="form-control mb-2" @bind="userAnswer" @bind:event="oninput" placeholder="Answer" @onkeydown="OnKeyDown" />
+            <div class="row">
+                <div class="col">
+                    @if (!showResult)
+                    {
+                        <button class="btn btn-success me-2" @onclick="CheckAnswer"><i class="bi bi-check-lg"></i> Solve</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-secondary" @onclick="GenerateNextFlashcard"><i class="bi bi-caret-right-square-fill"></i> Next</button>
+                    }
+                </div>
+                <div class="col text-end">
+                    @if (showResult)
+                    {
+                        <span class="fw-bold">@resultMessage</span>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-body-secondary">
+            <div class="row">
+                <div class="col-md-4">Total: @totalShown</div>
+                <div class="col-md-4">Correct: @totalCorrect</div>
+                <div class="col-md-4">Percent Correct: @PercentCorrect%</div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private Flashcard? flashcard;
+    private string userAnswer = string.Empty;
+    private bool showResult = false;
+    private string resultMessage = string.Empty;
+    private int totalShown = 0;
+    private int totalCorrect = 0;
+
+    [Parameter]
+    public required FlashcardSettings Settings { get; set; }
+
+    protected int PercentCorrect
+        => this.totalShown == 0
+            ? 0
+            : (int)Math.Round((double)this.totalCorrect / this.totalShown * 100);
+
+    public void Start()
+    {
+        this.totalShown = 0;
+        this.totalCorrect = 0;
+        this.userAnswer = string.Empty;
+        this.showResult = false;
+        this.resultMessage = string.Empty;
+        this.GenerateNextFlashcard();
+    }
+
+    private void GenerateNextFlashcard()
+    {
+        this.flashcard = FlashcardFactory.Create(this.Settings);
+        this.userAnswer = string.Empty;
+        this.showResult = false;
+        this.resultMessage = string.Empty;
+        this.totalShown++;
+    }
+
+    private void CheckAnswer()
+    {
+        this.showResult = true;
+        if (int.TryParse(this.userAnswer, out int answer))
+        {
+            if (answer == this.flashcard?.Answer)
+            {
+                this.resultMessage = "Correct!";
+                this.totalCorrect++;
+            }
+            else
+            {
+                this.resultMessage = $"Incorrect. The answer is {this.flashcard?.Answer}.";
+            }
+        }
+        else
+        {
+            this.resultMessage = "Please enter a valid number.";
+        }
+    }
+
+    private void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key != "Enter")
+        {
+            return;
+        }
+
+        if (!this.showResult)
+        {
+            this.CheckAnswer();
+        }
+        else if (this.showResult)
+        {
+            this.GenerateNextFlashcard();
+        }
+    }
+}
