@@ -10,6 +10,7 @@ This is designed to be a self-hosted set of games for playing with friends and f
 - Memory
 - Connect Four / Four in a Row
   - Based off of @csharpfritz repository found at https://github.com/csharpfritz/BlazorConnectFour
+- Flashcards
 
 ## Installation Instructions
 
