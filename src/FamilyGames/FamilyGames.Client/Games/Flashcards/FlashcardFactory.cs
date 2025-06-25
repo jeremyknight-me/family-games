@@ -2,39 +2,39 @@
 
 public static class FlashcardFactory
 {
-    public static Flashcard Create(HashSet<string> selectedFeatures, int numberCount)
+    public static Flashcard Create(FlashcardSettings settings)
     {
-        var features = selectedFeatures.ToList();
+        var features = settings.SelectedFeatures.ToList();
         var feature = features[Random.Shared.Next(features.Count)];
         return feature switch
         {
-            FlashcardFeatures.Addition => CreateAddition(numberCount),
-            FlashcardFeatures.Subtraction => CreateSubtraction(numberCount),
+            FlashcardFeatures.Addition => CreateAddition(settings),
+            FlashcardFeatures.Subtraction => CreateSubtraction(settings),
             _ => throw new InvalidOperationException("Unknown feature selected.")
         };
     }
 
-    private static Flashcard CreateAddition(int numberCount)
+    private static Flashcard CreateAddition(FlashcardSettings settings)
     {
-        var numbers = new int[numberCount];
-        for (var j = 0; j < numberCount; j++)
+        var numbers = new int[settings.NumberOfTerms];
+        for (var j = 0; j < settings.NumberOfTerms; j++)
         {
-            numbers[j] = Random.Shared.Next(1, 100); // Numbers between 1 and 99
+            numbers[j] = Random.Shared.Next(1, settings.MaxTermValue + 1); // Numbers between 1 and MaxTermValue
         }
         var equation = string.Join(" + ", numbers);
         var answer = numbers.Sum();
         return new Flashcard { Equation = equation, Answer = answer };
     }
 
-    private static Flashcard CreateSubtraction(int numberCount)
+    private static Flashcard CreateSubtraction(FlashcardSettings settings)
     {
         Flashcard? result = null;
         while (result == null)
         {
-            var numbers = new int[numberCount];
-            for (var j = 0; j < numberCount; j++)
+            var numbers = new int[settings.NumberOfTerms];
+            for (var j = 0; j < settings.NumberOfTerms; j++)
             {
-                numbers[j] = Random.Shared.Next(1, 100);
+                numbers[j] = Random.Shared.Next(1, settings.MaxTermValue + 1);
             }
             var answer = numbers[0];
             for (var j = 1; j < numbers.Length; j++)

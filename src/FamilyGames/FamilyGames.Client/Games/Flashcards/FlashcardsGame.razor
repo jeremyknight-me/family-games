@@ -1,196 +1,44 @@
 ﻿@rendermode InteractiveWebAssembly
 
-@using FamilyGames.Client.Games.Flashcards
-
 <h3>Flashcards</h3>
 
-@if (gameEnded)
-{
-    <div class="alert alert-info mb-3">
-        <strong>Game Ended.</strong> Final Score: @totalCorrect/@totalShown (@percentCorrect%)
-    </div>
-}
+<div class="row"> 
+    <div class="col-md-4 col-lg-3 mb-2">
+        <label class="form-label">Arithmetic Operations:</label>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="addition" @bind="settings.IsAdditionSelected">
+            <label class="form-check-label" for="addition">Addition</label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="subtraction" @bind="settings.IsSubtractionSelected">
+            <label class="form-check-label" for="subtraction">Subtraction</label>
+        </div>
 
-<div class="mb-3">
-    <label class="form-label">Select Features:</label>
-    <div>
-        <input type="checkbox" id="addition" @bind="additionSelected">
-        <label for="addition">Addition</label>
+        <label class="form-label">Number of Terms: <strong>@settings.NumberOfTerms</strong></label>
+        <input type="range" class="form-range" min="@settings.MinimumTerms" max="@settings.MaximumTerms" step="1" @bind="settings.NumberOfTerms" />
+
+        <label class="form-label">Largest Value: <strong>@settings.MaxTermValue</strong></label>
+        <input type="range" class="form-range" min="5" max="100" step="5" @bind="settings.MaxTermValue" />
+
+        <button class="btn btn-primary" @onclick="StartGame" disabled="@(!settings.CanStartGame)"><i class="bi bi-play-fill"></i> Start</button>
     </div>
-    <div>
-        <input type="checkbox" id="subtraction" @bind="subtractionSelected">
-        <label for="subtraction">Subtraction</label>
+    <div class="col-md-8 col-lg-9">
+        <Game @ref="game" Settings="settings" />
     </div>
 </div>
-<div class="mb-3">
-    <label class="form-label">Select Number Count:</label>
-    @for (int i = minimumTerms; i <= maximumTerms; i++)
-    {
-        <div>
-            <input type="radio" id="count-@i" name="numberCount" value="@i" @onchange="e => numberCount = int.Parse(e.Value.ToString())" checked="@(numberCount == i)" />
-            <label for="count-@i">@i</label>
-        </div>
-    }
-</div>
-<button class="btn btn-primary" @onclick="StartGame" disabled="@(!canStart)">Start</button>
-
-@if (gameStarted)
-{
-    <div class="modal fade d-block show" tabindex="-1" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Flashcard</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-2">
-                        <strong>Percent Correct:</strong> @percentCorrect%
-                        <span class="ms-3">Total: @totalShown</span>
-                        <span class="ms-3">Correct: @totalCorrect</span>
-                    </div>
-                    <div class="card mb-3" style="max-width: 400px; margin:auto;">
-                        <div class="card-body">
-                            <h5 class="card-title">Solve:</h5>
-                            <p class="card-text display-6">@currentFlashcard.Equation</p>
-                            <input class="form-control mb-2" @bind="userAnswer" @bind:event="oninput" placeholder="Your answer" @onkeydown="OnKeyDown" />
-                            @if (!showResult)
-                            {
-                                <button class="btn btn-success me-2" @onclick="CheckAnswer">Solve</button>
-                            }
-                            else
-                            {
-                                <button class="btn btn-secondary" @onclick="NextCard">Next</button>
-                            }
-                            <div class="mt-2">
-                                @if (showResult)
-                                {
-                                    <span class="fw-bold">@resultMessage</span>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <button class="btn btn-danger btn-sm mt-2" @onclick="EndGame">End Game</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-backdrop fade show"></div>
-}
 
 @code {
-    private HashSet<string> selectedFeatures = new();
-    private int minimumTerms = 2;
-    private int maximumTerms = 5;
-    private int numberCount = 0;
-    private bool gameStarted = false;
-    private bool gameEnded = false;
-
-    private Flashcard? currentFlashcard;
-    private string userAnswer = string.Empty;
-    private bool showResult = false;
-    private string resultMessage = string.Empty;
-    private int totalShown = 0;
-    private int totalCorrect = 0;
-
-    private bool additionSelected
-    {
-        get => selectedFeatures.Contains(FlashcardFeatures.Addition);
-        set
-        {
-            if (value)
-                selectedFeatures.Add(FlashcardFeatures.Addition);
-            else
-                selectedFeatures.Remove(FlashcardFeatures.Addition);
-        }
-    }
-
-    private bool subtractionSelected
-    {
-        get => selectedFeatures.Contains(FlashcardFeatures.Subtraction);
-        set
-        {
-            if (value)
-                selectedFeatures.Add(FlashcardFeatures.Subtraction);
-            else
-                selectedFeatures.Remove(FlashcardFeatures.Subtraction);
-        }
-    }
-    
-    private bool canStart
-        => selectedFeatures.Count > 0 && numberCount != 0;
-
-    private int percentCorrect
-        => totalShown == 0
-            ? 0
-            : (int)Math.Round((double)totalCorrect / totalShown * 100);
+    private FlashcardSettings settings = new();
+    private Game? game;
 
     private void StartGame()
     {
-        gameStarted = true;
-        gameEnded = false;
-        totalShown = 0;
-        totalCorrect = 0;
-        userAnswer = string.Empty;
-        showResult = false;
-        resultMessage = string.Empty;
-        GenerateNextFlashcard();
-    }
-
-    private void EndGame()
-    {
-        gameStarted = false;
-        gameEnded = true;
-        userAnswer = string.Empty;
-        showResult = false;
-        resultMessage = string.Empty;
-    }
-
-    private void GenerateNextFlashcard()
-    {
-        currentFlashcard = FlashcardFactory.Create(selectedFeatures, numberCount);
-        userAnswer = string.Empty;
-        showResult = false;
-        resultMessage = string.Empty;
-        totalShown++;
-    }
-
-    private void CheckAnswer()
-    {
-        showResult = true;
-        if (int.TryParse(userAnswer, out int userAns))
+        if (game is null)
         {
-            if (userAns == currentFlashcard.Answer)
-            {
-                resultMessage = "Correct!";
-                totalCorrect++;
-            }
-            else
-            {
-                resultMessage = $"Incorrect. The answer is {currentFlashcard.Answer}.";
-            }
+            return;
         }
-        else
-        {
-            resultMessage = "Please enter a valid number.";
-        }
+
+        game.Start();
     }
 
-    private void NextCard()
-    {
-        GenerateNextFlashcard();
-    }
-
-    private void OnKeyDown(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter" && !showResult)
-        {
-            CheckAnswer();
-        }
-        else if (e.Key == "Enter" && showResult)
-        {
-            NextCard();
-        }
-    }
 }
