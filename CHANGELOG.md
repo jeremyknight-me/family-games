@@ -7,6 +7,16 @@ Unless otherwise noted, all changes made by [@jeremyknight-me](https://github.co
 
 ---
 
+## v1.1.1
+
+### Added
+
+- Flashcards
+
+### Changed
+
+- Upgrade to .NET 9
+
 ## v1.0.1
 
 ### Added
