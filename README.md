@@ -24,13 +24,43 @@ Using the above example, you should be able to navigate to the site using: `http
 
 NOTE: You may want to pull a specific version `1.0.1` instead of `latest`.
 
+### Docker Compose
+
+You can also use Docker Compose to run the application. 
+Create a `docker-compose.yml` file in your project directory with the following content:
+
+```yaml
+services:
+  family-games:
+    container_name: family-games
+    image: knight0323/family-games:latest
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 6080:8080
+    restart: unless-stopped
+```
+
 ## Developer Instructions
+
+For all commands below. replace `1.2.3` with the version you are working on.
+
+### Build
+
+To build the docker image, run the following command in the root of the repository:
+
+```powershell
+docker build -f src\FamilyGames\Dockerfile -t knight0323/family-games:1.2.3 .
+```
 
 ### Publish
 
-Change `ContainerImageTags` to latest version on publish.
+To publish the docker image, run the following:
 
 ```powershell
 docker login
-dotnet publish --os linux --arch x64 -c Release -p:PublishProfile=DefaultContainer -p:ContainerImageTags='"1.0.1;latest"' -p:ContainerRegistry=docker.io
+docker push knight0323/family-games:1.2.3
+docker tag knight0323/family-games:1.2.3 knight0323/family-games:latest
+docker push knight0323/family-games:latest
 ```

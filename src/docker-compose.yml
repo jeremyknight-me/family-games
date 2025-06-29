@@ -1,0 +1,6 @@
+services:
+  familygames:
+    image: ${DOCKER_REGISTRY-}familygames
+    build:
+      context: ..
+      dockerfile: src/FamilyGames/Dockerfile

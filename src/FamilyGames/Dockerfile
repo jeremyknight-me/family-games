@@ -12,11 +12,11 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FamilyGames/FamilyGames/FamilyGames.csproj", "FamilyGames/FamilyGames/"]
-COPY ["FamilyGames/FamilyGames.Client/FamilyGames.Client.csproj", "FamilyGames/FamilyGames.Client/"]
-RUN dotnet restore "./FamilyGames/FamilyGames/FamilyGames.csproj"
+COPY ["src/FamilyGames/FamilyGames.csproj", "FamilyGames/"]
+COPY ["src/FamilyGames.Client/FamilyGames.Client.csproj", "FamilyGames.Client/"]
+RUN dotnet restore "./FamilyGames/FamilyGames.csproj"
 COPY . .
-WORKDIR "/src/FamilyGames/FamilyGames"
+WORKDIR "src/FamilyGames"
 RUN dotnet build "./FamilyGames.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
