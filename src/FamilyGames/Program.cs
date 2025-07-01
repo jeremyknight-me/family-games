@@ -27,7 +27,7 @@ public class Program
         // Turn on and rebuild if you have a SSL cert.
         //app.UseHttpsRedirection();
 
-        app.UseStaticFiles();
+        app.MapStaticAssets();
         app.UseAntiforgery();
 
         app.MapRazorComponents<App>()
