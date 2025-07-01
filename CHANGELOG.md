@@ -7,6 +7,13 @@ Unless otherwise noted, all changes made by [@jeremyknight-me](https://github.co
 
 ---
 
+## v1.1.2
+
+### Changed
+
+- Changed page titles
+- Changed Flashcards `<input />` type to `number`
+
 ## v1.1.1
 
 ### Added
