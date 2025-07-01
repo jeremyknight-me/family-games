@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>@PageTitleFactory.Create()</PageTitle>
 
 <div class="list-group">
     @foreach(var item in NavigationItemFactory.MakeItems())

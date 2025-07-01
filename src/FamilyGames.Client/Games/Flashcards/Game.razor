@@ -5,17 +5,7 @@
     @if (flashcard is null)
     {
         <div class="card-body">
-            <h5 class="card-title"><span class="placeholder col-4"></span></h5>
-            <p class="card-text display-6">
-                <span class="placeholder col-8"></span>
-            </p>
-        </div>
-        <div class="card-footer text-body-secondary">
-            <div class="row">
-                <div class="col-md-4"><span class="placeholder col-4"></span></div>
-                <div class="col-md-4"><span class="placeholder col-4"></span></div>
-                <div class="col-md-4"><span class="placeholder col-4"></span></div>
-            </div>
+            <h5 class="card-title"><span class="col-4">Please start a game</span></h5>
         </div>
     }
     else
@@ -25,7 +15,7 @@
             <p class="card-text display-6">
                 @flashcard.Equation
             </p>
-            <input class="form-control mb-2" @bind="userAnswer" @bind:event="oninput" placeholder="Answer" @onkeydown="OnKeyDown" />
+            <input type="number" class="form-control mb-2" @bind="userAnswer" @bind:event="oninput" placeholder="Answer" @onkeydown="OnKeyDown" />
             <div class="row">
                 <div class="col">
                     @if (!showResult)
