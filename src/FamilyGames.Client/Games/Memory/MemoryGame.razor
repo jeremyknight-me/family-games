@@ -17,22 +17,41 @@
         <div class="col">
             <div class="alert alert-primary mb-0" role="alert">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="@(this.board.CurrentPlayer == Player.One ? "fw-bold" : string.Empty)">Player 1</div>
+                    <div class="@(this.board.IsPlayerOneTurn ? "fw-bold" : string.Empty)">
+                        Player 1
+                        @if (this.board.IsPlayerOneTurn)
+                        {
+                            <i class="bi bi-controller"></i>
+                        }
+                    </div>
                     <div>Pairs: @this.board.Scores[Player.One]</div>
                 </div>
             </div>
         </div>
         <div class="col-auto">
-            <button class="btn btn-secondary"
-                    @onclick="this.board.EndTurn"
-                    disabled="@(!this.board.IsTurnOver)">
-                <i class="bi bi-check-lg"></i> End Turn
-            </button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-success"
+                        @onclick="this.board.ContinueTurn"
+                        disabled="@(!this.board.IsContinue)">
+                    <i class="bi bi-play-fill"></i> Continue
+                </button>
+                <button class="btn btn-secondary"
+                        @onclick="this.board.EndTurn"
+                        disabled="@(!this.board.IsTurnOver)">
+                    <i class="bi bi-arrow-left-right"></i> End Turn
+                </button>
+            </div>
         </div>
         <div class="col">
-            <div class="alert alert-success mb-0" role="alert">
+            <div class="alert alert-danger mb-0" role="alert">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="@(this.board.CurrentPlayer == Player.Two ? "fw-bold" : string.Empty)">Player 2</div>
+                    <div class="@(this.board.IsPlayerTwoTurn ? "fw-bold" : string.Empty)">
+                        Player 2
+                        @if (this.board.IsPlayerTwoTurn)
+                        {
+                            <i class="bi bi-controller"></i>
+                        }
+                    </div>
                     <div>Pairs: @this.board.Scores[Player.Two]</div>
                 </div>
             </div>
