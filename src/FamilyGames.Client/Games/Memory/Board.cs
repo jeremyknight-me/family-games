@@ -6,6 +6,7 @@ public sealed class Board
     private readonly IDictionary<Player, int> scores;
     private Card? firstSelection;
     private Card? secondSelection;
+    private bool matchFound = false;
 
     public Board(int numberOfPairs)
     {
@@ -19,29 +20,28 @@ public sealed class Board
 
     public IReadOnlyList<Card> Cards => this.cards.AsReadOnly();
     public Player CurrentPlayer { get; private set; } = Player.One;
-    public bool IsTurnOver => this.firstSelection is not null && this.secondSelection is not null;
+    public bool IsPlayerOneTurn => this.CurrentPlayer == Player.One;
+    public bool IsPlayerTwoTurn => this.CurrentPlayer == Player.Two;
+    public bool IsContinue => this.BothSelectionsMade && this.matchFound;
+    public bool IsTurnOver => this.BothSelectionsMade && !this.matchFound;
     public IReadOnlyDictionary<Player, int> Scores => this.scores.AsReadOnly();
+
+    private bool BothSelectionsMade
+        => this.firstSelection is not null
+            && this.secondSelection is not null;
 
     public static Board Create(int numberOfPairs)
         => new(numberOfPairs);
+
+    public void ContinueTurn()
+        => this.ResetSelections();
 
     public void EndTurn()
     {
         this.CurrentPlayer = this.CurrentPlayer == Player.One
             ? Player.Two
             : Player.One;
-
-        if (this.firstSelection is not null)
-        {
-            this.firstSelection.Unselect();
-            this.firstSelection = null;
-        }
-
-        if (this.secondSelection is not null)
-        {
-            this.secondSelection.Unselect();
-            this.secondSelection = null;
-        }
+        this.ResetSelections();
     }
 
     public void Select(Card card)
@@ -66,7 +66,25 @@ public sealed class Board
                 this.firstSelection.Match(this.CurrentPlayer);
                 this.secondSelection.Match(this.CurrentPlayer);
                 this.scores[this.CurrentPlayer]++;
+                this.matchFound = true;
             }
+        }
+    }
+
+    private void ResetSelections()
+    {
+        this.matchFound = false;
+
+        if (this.firstSelection is not null)
+        {
+            this.firstSelection.Unselect();
+            this.firstSelection = null;
+        }
+
+        if (this.secondSelection is not null)
+        {
+            this.secondSelection.Unselect();
+            this.secondSelection = null;
         }
     }
 
