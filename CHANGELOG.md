@@ -7,6 +7,12 @@ Unless otherwise noted, all changes made by [@jeremyknight-me](https://github.co
 
 ---
 
+## v1.1.3
+
+### Changed
+
+- Changed Memory Game to allow user to continue turn if correct match
+
 ## v1.1.2
 
 ### Changed
