@@ -2,7 +2,7 @@
 
 This is designed to be a self-hosted set of games for playing with friends and family in your household and/or with access to your network (Cloudflare Tunnels, etc). 
 
-![Docker Image Version](https://img.shields.io/docker/v/knight0323/family-games) [![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/family-games?color=red) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Docker Image Version](https://img.shields.io/docker/v/knight0323/family-games)](https://hub.docker.com/r/knight0323/family-games) [![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/family-games?color=red) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 ## Games
 
