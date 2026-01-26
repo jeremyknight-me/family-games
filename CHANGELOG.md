@@ -7,6 +7,12 @@ Unless otherwise noted, all changes made by [@jeremyknight-me](https://github.co
 
 ---
 
+## v1.1.4
+
+### Changed
+
+- Upgraded to .NET 10
+
 ## v1.1.3
 
 ### Changed
